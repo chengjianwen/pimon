@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
   */
   unsigned int diff = abs((int)image1.size - (int)image2.size);
   unsigned int avg = (image1.size + image2.size) / 2;
-  if (diff * 100 < avg)
+  if (diff * 100 > avg)
   {
     FILE *fp;
     char filename[4096];
