@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
     exit (-1);
   }
 
-  sleep(3);
+  sleep(30);
   struct memory image2 = {0};
   time (&image2.time);
   curl_easy_setopt(handle, CURLOPT_WRITEDATA, (void *)&image2);
