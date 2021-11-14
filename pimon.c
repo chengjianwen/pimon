@@ -73,6 +73,8 @@ int main(int argc, char *argv[])
 
   curl_easy_setopt(handle, CURLOPT_URL, url);
   curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, write_data);
+  curl_easy_setopt(handle, CURLOPT_CONNECTTIMEOUT, 5L);
+  curl_easy_setopt(handle, CURLOPT_TIMEOUT, 10L);
 
   CURLcode ret;
   char buf[CURL_ERROR_SIZE];
