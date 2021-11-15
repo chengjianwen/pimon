@@ -1,6 +1,6 @@
 all: pimon
 
-CFLAGS=`curl-config --cflags` -g
+CFLAGS=`curl-config --cflags`
 LIBS=`curl-config --libs`
 
 pimon: pimon.o

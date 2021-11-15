@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <syslog.h>
 #include <curl/curl.h>
 
 #define	URL		"http://%s:8080/?action=snapshot"
@@ -48,9 +49,10 @@ void mkfiledir(char *filename)
 int main(int argc, char *argv[])
 {
 
+  openlog("pimon", LOG_CONS | LOG_PID, 0);
   if (argc != 2)
   {
-    fprintf (stderr, "Usage: %s <host>\n", argv[0]);
+    syslog (LOG_USER | LOG_ERR, "Usage: %s <host>\n", argv[0]);
     exit (-1);
   }
 
@@ -67,7 +69,7 @@ int main(int argc, char *argv[])
   handle = curl_easy_init();
   if (!handle)
   {
-    fprintf (stderr, "error: curl_easy_init()\n");
+    syslog(LOG_USER | LOG_ERR, "error: curl_easy_init()\n");
     exit (-1);
   }
 
@@ -87,8 +89,8 @@ int main(int argc, char *argv[])
   ret = curl_easy_perform(handle);
   if (ret)
   {
-    fprintf (stderr, "error: curl_easy_perform()\n");
-    fprintf (stderr, "msg: %s\n", buf);
+    syslog (LOG_USER | LOG_ERR, "error: curl_easy_perform()\n");
+    syslog (LOG_USER | LOG_DEBUG, "msg: %s\n", buf);
     exit (-1);
   }
 
@@ -99,8 +101,8 @@ int main(int argc, char *argv[])
   ret = curl_easy_perform(handle);
   if (ret)
   {
-    fprintf (stderr, "error: curl_easy_perform()\n");
-    fprintf (stderr, "msg: %s\n", buf);
+    syslog (LOG_USER | LOG_ERR, "error: curl_easy_perform()\n");
+    syslog (LOG_USER | LOG_DEBUG, "msg: %s\n", buf);
     exit (-1);
   }
 
@@ -127,8 +129,8 @@ int main(int argc, char *argv[])
     fp = fopen (filename, "wb");
     if (!fp)
     {
-      fprintf (stderr, "Error: fopen()\n");
-      fprintf (stderr, "msg: can't open file: %s\n", filename);
+      syslog (LOG_USER | LOG_ERR, "Error: fopen()\n");
+      syslog (LOG_USER | LOG_DEBUG, "msg: can't open file: %s\n", filename);
       exit (-1);
     }
 
@@ -143,8 +145,8 @@ int main(int argc, char *argv[])
     fp = fopen (filename, "wb");
     if (!fp)
     {
-      fprintf (stderr, "Error: fopen()\n");
-      fprintf (stderr, "msg: can't open file: %s\n", filename);
+      syslog (LOG_USER | LOG_ERR, "Error: fopen()\n");
+      syslog (LOG_USER | LOG_DEBUG, "msg: can't open file: %s\n", filename);
       exit (-1);
     }
     fwrite (image2.data, 1, image2.size, fp);
@@ -154,5 +156,6 @@ int main(int argc, char *argv[])
   free (image1.data);
   free (image2.data);
   curl_easy_cleanup(handle);
+  closelog();
   return 0;
 }
