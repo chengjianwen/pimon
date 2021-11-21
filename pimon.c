@@ -14,8 +14,8 @@
 #include <curl/curl.h>
 
 #define	URL		"http://%s:8080/?action=snapshot"
-#define	FILENAME1	"%s/Activities/%s/%s/%s_a.jpg"
-#define	FILENAME2	"%s/Activities/%s/%s/%s_b.jpg"
+#define	FILENAME1	"%s/Motions/%s/%s/%s_a.jpg"
+#define	FILENAME2	"%s/Motions/%s/%s/%s_b.jpg"
 
 struct memory {
    char *data;
